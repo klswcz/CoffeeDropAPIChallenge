@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\CoffeePodsController;
 use App\Http\Controllers\Api\LocationsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -26,5 +27,5 @@ Route::namespace('Api')->group(function () {
     Route::post('location/create', [LocationsController::class, 'create']);
 
     // PODS
-    Route::post('pods/cashback/calculate', 'CoffeePodsController@getCashbackAmount');
+    Route::post('pods/cashback/calculate', [CoffeePodsController::class, 'getCashbackAmount']);
 });
