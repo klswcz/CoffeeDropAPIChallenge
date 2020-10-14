@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class CashbackQuery extends Model
 {
-
+    protected $fillable = ['client_data', 'query'];
 }

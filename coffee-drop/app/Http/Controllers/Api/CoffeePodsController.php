@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\CashbackQuery;
 use App\Models\CoffeePod;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use function GuzzleHttp\json_encode;
 
 class CoffeePodsController extends Controller
 {
@@ -20,6 +22,11 @@ class CoffeePodsController extends Controller
         }
 
         $response = CoffeePod::calculateCashbackValue($request->all());
+
+        CashbackQuery::create([
+            'client_data' => '',
+             'query' => json_encode($request->all())
+        ]);
 
         return response()->json($response);
     }
