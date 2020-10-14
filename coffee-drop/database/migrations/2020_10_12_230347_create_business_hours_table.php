@@ -21,7 +21,7 @@ class CreateBusinessHoursTable extends Migration
             $table->string('closing_time');
             $table->timestamps();
 
-            $table->foreign('location_id')->references('id')->on('locations');
+            $table->foreign('location_id')->references('id')->on('locations')->onDelete('cascade');
         });
     }
 

@@ -9,6 +9,7 @@ use PostcodesApi;
 class Location extends Model
 {
     private $weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    protected $fillable = ['postcode'];
 
     public function businessHours()
     {
