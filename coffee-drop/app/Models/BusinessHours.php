@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class BusinessHours extends Model
@@ -12,5 +11,14 @@ class BusinessHours extends Model
     public function location()
     {
         return $this->belongsTo(Location::class);
+    }
+
+    public function getBusinessHoursJsonAttribute()
+    {
+        return [
+            'day' => $this->day,
+            'opening_time' => $this->opening_time,
+            'closing_time' => $this->closing_time
+        ];
     }
 }

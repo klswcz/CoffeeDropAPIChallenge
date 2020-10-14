@@ -22,7 +22,7 @@ class Location extends Model
 
     public function getBusinessHours()
     {
-        return 0;
+        return $this->businessHours->pluck('business_hours_json');
     }
 
     public function scopeByPostcode($query, string $postcode)
