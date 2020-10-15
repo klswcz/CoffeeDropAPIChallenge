@@ -1,10 +1,6 @@
 # Coffee Drop API
 
 ## Setup
- 
-Clone repository into your current folder  
- `git clone https://github.com/klswcz/CoffeeDropAPIChallenge.git`  
-
 Change you directory to _coffee-drop_  
 `cd CoffeeDropAPIChallenge/coffee-drop/`  
 
@@ -69,7 +65,7 @@ To start Docker container move into _laradock_ folder
 Create _.env_ file  
 `cp env-example .env`  
 
-Run _docker_compose_ command 
+Create new containers 
 `docker-compose up -d nginx mysql`  
 
 Create a new database named 'coffee_drop' (mysql configuration is host 127.0.0.1:3306, user: root, password: root)  
@@ -82,7 +78,7 @@ When you're inside container run `php artisan migrate:fresh --seed` and after mi
 **Your application should be running on http://localhost:80/**
 
 ## How to run unit tests?
-To run unit tests access container CLI  
+To run unit tests access Docker CLI  
 `docker-compose exec workspace bash`  
 
-When you're inside container run `php artisan test` and `exit` to quit the container. 
+Use `php artisan test` to run all tests
