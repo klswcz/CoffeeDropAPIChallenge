@@ -2,9 +2,12 @@
 
 namespace Tests\Feature;
 
+use App\Http\Resources\BusinessHours as BusinessHoursResourceCollection;
+use App\Http\Resources\Location as LocationResource;
 use App\Models\BusinessHours;
 use App\Models\Location;
 use Tests\TestCase;
+use function GuzzleHttp\json_encode;
 
 class LocationsTest extends TestCase
 {
@@ -31,31 +34,23 @@ class LocationsTest extends TestCase
         ]);
 
 
-        $this->get('/api/location/nearest/E61AJ')
+        $response = $this->get('/api/location/nearest/E61AJ')
             ->assertSessionHasNoErrors()
-            ->assertStatus(200)
-            ->assertJson([
+            ->assertStatus(200);
+
+        $this->assertEquals(
+            json_encode([
                 'postcode' => $nearestLocation->postcode,
                 'distance' => 0.43,
-                'business_hours' => [
-                    [
-                        "day" => $businessHoursMonday->day,
-                        "opening_time" => $businessHoursMonday->opening_time,
-                        "closing_time" => $businessHoursMonday->closing_time
-                    ],
-                    [
-                        "day" => $businessHoursTuesday->day,
-                        "opening_time" => $businessHoursTuesday->opening_time,
-                        "closing_time" => $businessHoursTuesday->closing_time
-                    ]
-                ]
-            ]);
+                'business_hours' => new BusinessHoursResourceCollection($nearestLocation->businessHours)
+            ]), $response->getContent()
+        );
     }
 
     /** @test */
     public function create_new_location()
     {
-        $this->post('api/location/create', [
+        $response = $this->post('api/location/create', [
             'postcode' => 'LE2 7TR',
             'business_hours' => [
                 'monday' => [
@@ -68,24 +63,12 @@ class LocationsTest extends TestCase
                 ]
             ],
         ])->assertSessionHasNoErrors()
-            ->assertStatus(200)
-            ->assertJson([
-                'location' => [
-                    'postcode' => Location::byPostcode('LE27TR')->first()->postcode,
-                ],
-                'business_hours' => [
-                    [
-                        'day' => 'monday',
-                        'opening_time' => '10:00',
-                        'closing_time' => '20:00'
-                    ],
-                    [
-                        'day' => 'tuesday',
-                        'opening_time' => '12:30',
-                        'closing_time' => '17:15'
-                    ]
-                ]
-            ]);
+            ->assertStatus(200);
+
+        $this->assertEquals(json_encode([
+            'location' => new LocationResource(Location::byPostcode('LE27TR')->first()),
+            'business_hours' => new BusinessHoursResourceCollection(Location::byPostcode('LE27TR')->first()->businessHours)
+        ]), $response->getContent());
 
         $this->assertDatabaseHas('locations', [
             'postcode' => 'LE27TR',

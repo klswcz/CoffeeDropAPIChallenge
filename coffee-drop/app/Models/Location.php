@@ -24,11 +24,6 @@ class Location extends Model
         return $this->weekdays[$index];
     }
 
-    public function getBusinessHours()
-    {
-        return $this->businessHours->pluck('business_hours_json');
-    }
-
     public function scopeByPostcode($query, string $postcode)
     {
         $query->where('postcode', $postcode);

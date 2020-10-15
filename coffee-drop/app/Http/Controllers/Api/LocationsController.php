@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\BusinessHours as BusinessHoursResourceCollection;
+use App\Http\Resources\Location as LocationResource;
 use App\Models\BusinessHours;
 use App\Models\Location;
 use GuzzleHttp\Exception\ClientException;
@@ -22,12 +24,16 @@ class LocationsController extends Controller
 
         $nearestLocation = Location::getNearest($userLocation);
 
+        $businessHoursResourceCollection = new BusinessHoursResourceCollection(Location::byPostcode($nearestLocation['postcode'])
+            ->first()
+            ->businessHours
+        );
+
+
         return response()->json([
             'postcode' => $nearestLocation['postcode'],
             'distance' => $nearestLocation['distance'],
-            'business_hours' => Location::byPostcode($nearestLocation['postcode'])
-                ->first()
-                ->getBusinessHours()
+            'business_hours' => $businessHoursResourceCollection
         ]);
     }
 
@@ -54,9 +60,10 @@ class LocationsController extends Controller
             ]);
         }
 
+
         return response()->json([
-            'location' => $location,
-            'business_hours' => $location->getBusinessHours()
+            'location' => new LocationResource($location),
+            'business_hours' => new BusinessHoursResourceCollection($location->businessHours)
         ]);
 
     }

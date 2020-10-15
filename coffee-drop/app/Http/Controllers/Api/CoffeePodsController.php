@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CashbackQueries as CashbackQueriesResourceCollection;
 use App\Models\CashbackQuery;
 use App\Models\CoffeePod;
 use Illuminate\Http\Request;
@@ -42,9 +43,11 @@ class CoffeePodsController extends Controller
 
     public function getLatestQueries()
     {
-        $responseData = CashbackQuery::orderBy('created_at', 'desc')->limit(5)->get();
 
-        return response()->json($responseData);
+        $cashbackQueriesResourceCollection = new CashbackQueriesResourceCollection(CashbackQuery::orderBy('created_at',
+            'desc')->limit(5)->get());
+
+        return response()->json($cashbackQueriesResourceCollection);
     }
 
     protected function convertToPounds(array $response)
