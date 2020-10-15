@@ -15,8 +15,8 @@ class CreateCashbackQueriesTable extends Migration
     {
         Schema::create('cashback_queries', function (Blueprint $table) {
             $table->id();
-            $table->string('client_data');
             $table->json('query');
+            $table->json('result');
             $table->timestamps();
         });
     }

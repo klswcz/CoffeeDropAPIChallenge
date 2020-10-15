@@ -14,7 +14,16 @@ class CoffeePodsController extends Controller
     public function getCashbackAmount(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            '*' => 'nullable|integer|min:1',
+            '*' => [
+                'nullable',
+                'integer',
+                'min:1',
+                function ($attribute, $value, $fail) {
+                    if (!CoffeePod::byName($attribute)->exists()) {
+                        return $fail($attribute . ' is not a valid coffee pod name.');
+                    }
+                }
+            ],
         ]);
 
         if ($validator->fails()) {
@@ -22,12 +31,28 @@ class CoffeePodsController extends Controller
         }
 
         $response = CoffeePod::calculateCashbackValue($request->all());
-
+        $response = $this->convertToPounds($response);
         CashbackQuery::create([
-            'client_data' => '',
-             'query' => json_encode($request->all())
+            'query' => json_encode($request->all()),
+            'result' => json_encode($response)
         ]);
 
         return response()->json($response);
+    }
+
+    public function getLatestQueries()
+    {
+        $responseData = CashbackQuery::orderBy('created_at', 'desc')->limit(5)->get();
+
+        return response()->json($responseData);
+    }
+
+    protected function convertToPounds(array $response)
+    {
+        foreach ($response as $key => $amount) {
+            $response[$key] = money_format('%n', $amount / 100);
+        }
+
+        return $response;
     }
 }

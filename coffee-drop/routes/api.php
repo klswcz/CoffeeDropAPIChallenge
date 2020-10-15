@@ -28,4 +28,7 @@ Route::namespace('Api')->group(function () {
 
     // PODS
     Route::post('pods/cashback/calculate', [CoffeePodsController::class, 'getCashbackAmount']);
+
+    //QUERIES
+    Route::get('pods/cashback/queries/latest', [CoffeePodsController::class, 'getLatestQueries']);
 });

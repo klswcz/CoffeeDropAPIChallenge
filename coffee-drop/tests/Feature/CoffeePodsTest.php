@@ -37,9 +37,9 @@ class CoffeePodsTest extends TestCase
         $this->post('api/pods/cashback/calculate', $query)->assertSessionHasNoErrors()
             ->assertStatus(200)
             ->assertJson([
-                'total' => 232,
-                'coffeeA' => 30,
-                'coffeeB' => 202
+                'total' => money_format('%n', 232 / 100),
+                'coffeeA' => money_format('%n', 30 / 100),
+                'coffeeB' => money_format('%n', 202 / 100)
             ]);
     }
 }

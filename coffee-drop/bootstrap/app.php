@@ -41,6 +41,8 @@ $app->singleton(
     App\Exceptions\Handler::class
 );
 
+setlocale(LC_MONETARY, 'en_GB');
+
 /*
 |--------------------------------------------------------------------------
 | Return The Application
