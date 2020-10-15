@@ -1,8 +1,7 @@
 {
 	"info": {
+		"_postman_id": "6bb84791-5179-468a-8aa3-298b7f82b322",
 		"name": "CoffeeDrop",
-		"_postman_id": "df15e329-169f-df36-623d-78cd2cdc1350",
-		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -11,9 +10,26 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {},
 				"url": {
-					"raw": ""
+					"raw": "http://localhost:80/api/location/nearest/LE16RT",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "80",
+					"path": [
+						"api",
+						"location",
+						"nearest",
+						"LE16RT"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					]
 				},
 				"description": "Returns the address and opening times of the nearest CoffeeDrop location"
 			},
@@ -31,12 +47,21 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n      \"postcode\": \"CV313PP\",\n      \"opening_times\": {\"monday\" : \"09:00\", \"tuesday\" : \"09:00\", \"saturday\" : \"08:30\"},\n      \"closing_times\": {\"monday\" : \"19:00\", \"tuesday\" : \"19:00\", \"saturday\" : \"18:30\"}\n}\n\n"
+					"raw": "{\n      \"postcode\": \"SA1 3RD\",\n      \"business_hours\":\n      {\"monday\": {\"opening_time\": \"10:00\", \"closing_time\": \"20:00\"}, \"tuesday\": {\"opening_time\": \"11:00\", \"closing_time\": \"21:30\"}}\n}\n\n"
 				},
 				"url": {
-					"raw": ""
-				},
-				"description": ""
+					"raw": "http://localhost:80/api/location/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "80",
+					"path": [
+						"api",
+						"location",
+						"create"
+					]
+				}
 			},
 			"response": []
 		},
@@ -55,11 +80,45 @@
 					"raw": "{\n      \"Ristretto\": 10,\n      \"Espresso\": 100,\n      \"Lungo\":30\n}\n\n"
 				},
 				"url": {
-					"raw": ""
-				},
-				"description": ""
+					"raw": "http://localhost:80/api/pods/cashback/calculate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "80",
+					"path": [
+						"api",
+						"pods",
+						"cashback",
+						"calculate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getLatestQueries",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:80/api/pods/cashback/queries/latest",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "80",
+					"path": [
+						"api",
+						"pods",
+						"cashback",
+						"queries",
+						"latest"
+					]
+				}
 			},
 			"response": []
 		}
-	]
+	],
+	"protocolProfileBehavior": {}
 }
