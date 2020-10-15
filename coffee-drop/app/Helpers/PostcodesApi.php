@@ -15,7 +15,7 @@ class PostcodesApi
         return json_decode($res->getBody()->getContents())->result;
     }
 
-    public static function getBulk(Collection $locations)
+    public static function getLocationsData(Collection $locations)
     {
 
         $client = new Client();

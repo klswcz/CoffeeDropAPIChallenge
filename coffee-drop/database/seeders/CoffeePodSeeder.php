@@ -23,7 +23,7 @@ class CoffeePodSeeder extends Seeder
 
         CoffeePod::firstOrCreate([
             'name' => 'Espresso',
-            'value_below_50_items' =>4,
+            'value_below_50_items' => 4,
             'value_between_50_and_500_items' => 6,
             'value_above_500_items' => 10
         ]);

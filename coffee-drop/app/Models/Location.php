@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Math;
 use PostcodesApi;
 
 class Location extends Model
 {
+    use HasFactory;
+
     private $weekdays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
     protected $fillable = ['postcode'];
 
@@ -61,10 +64,10 @@ class Location extends Model
         return $distances;
     }
 
-    private static function getAllCoordinates()
+    public static function getAllCoordinates()
     {
         $coordinates = array();
-        $locationsData = PostcodesApi::getBulk(Location::all());
+        $locationsData = PostcodesApi::getLocationsData(Location::all());
 
         foreach ($locationsData as $location) {
             array_push($coordinates, [

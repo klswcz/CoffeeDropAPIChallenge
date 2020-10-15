@@ -6,6 +6,12 @@ class Math
 {
     const EARTH_RADIUS = 6371;
 
+    /**
+     * Use Haversine Formula to accurately calculate distance between two locations. returned distance is given in kilometers.
+     * @param array $pointA
+     * @param array $pointB
+     * @return mixed
+     */
     public static function getSphereDistance(array $pointA, array $pointB)
     {
         $distanceLatitudes = deg2rad($pointB['latitude'] - $pointA['latitude']);
