@@ -31,7 +31,6 @@ class Location extends Model
 
     public static function getNearest($userLocation)
     {
-
         $userCoordinates = [
             'postcode' => $userLocation->postcode,
             'coordinates' => [
@@ -39,7 +38,6 @@ class Location extends Model
                 'longitude' => $userLocation->longitude
             ]
         ];
-
         $distances = collect(Location::getDistances($userCoordinates));
 
         return $distances->sortBy('distance')->first();
@@ -48,7 +46,6 @@ class Location extends Model
     public static function getDistances(array $userCoordinates)
     {
         $distances = array();
-
         foreach (Location::getAllCoordinates() as $location) {
             array_push($distances, [
                 'postcode' => $location['postcode'],
@@ -63,7 +60,6 @@ class Location extends Model
     {
         $coordinates = array();
         $locationsData = PostcodesApi::getLocationsData(Location::all());
-
         foreach ($locationsData as $location) {
             array_push($coordinates, [
                 'postcode' => $location->query,

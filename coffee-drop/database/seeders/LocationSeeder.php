@@ -15,7 +15,7 @@ class LocationSeeder extends Seeder
      */
     public function run()
     {
-        $locationsData = array_map('str_getcsv', file('../location_data.csv'));
+        $locationsData = array_map('str_getcsv', file('location_data.csv'));
 
         // Remove headers list
         unset($locationsData[0]);

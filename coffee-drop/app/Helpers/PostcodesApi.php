@@ -17,7 +17,6 @@ class PostcodesApi
 
     public static function getLocationsData(Collection $locations)
     {
-
         $client = new Client();
         $res = $client->post('https://api.postcodes.io/postcodes/', [
             'json' => [

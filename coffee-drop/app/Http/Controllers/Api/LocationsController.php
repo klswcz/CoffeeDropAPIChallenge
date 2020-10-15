@@ -24,6 +24,11 @@ class LocationsController extends Controller
 
         $nearestLocation = Location::getNearest($userLocation);
 
+
+        if (Location::all()->count() === 0) {
+            return response()->json(['message' => 'Database has no locations.'], 200);
+        }
+
         $businessHoursResourceCollection = new BusinessHoursResourceCollection(Location::byPostcode($nearestLocation['postcode'])
             ->first()
             ->businessHours
@@ -51,13 +56,17 @@ class LocationsController extends Controller
             'postcode' => str_replace(' ', '', strtoupper($request->get('postcode')))
         ]);
 
-        foreach ($request->get('business_hours') as $day => $businessHours) {
-            BusinessHours::create([
-                'location_id' => $location->id,
-                'day' => strtolower($day),
-                'opening_time' => $businessHours['opening_time'],
-                'closing_time' => $businessHours['closing_time']
-            ]);
+        try {
+            foreach ($request->get('business_hours') as $day => $businessHours) {
+                BusinessHours::create([
+                    'location_id' => $location->id,
+                    'day' => strtolower($day),
+                    'opening_time' => $businessHours['opening_time'],
+                    'closing_time' => $businessHours['closing_time']
+                ]);
+            }
+        } catch (\Exception $exception) {
+            return response()->json(['message' => 'Invalid request structure.'], 400);
         }
 
 
