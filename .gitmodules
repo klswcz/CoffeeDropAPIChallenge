@@ -1,0 +1,3 @@
+[submodule "coffee-drop/laradock"]
+	path = coffee-drop/laradock
+	url = https://github.com/Laradock/laradock.git
